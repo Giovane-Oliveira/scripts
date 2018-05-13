@@ -1,0 +1,48 @@
+#!/bin/bash
+
+dialog                                            \
+   --title 'Ulscript'                             \
+   --msgbox 'Saiba sua nota da Ulbra' 5 30
+
+op=$( dialog --stdout --title 'ULBRA' --menu 'Notas:' 0 0 0 \
+1 "Cálculo média final" \
+2 "Cálculo para saber quanto precisa tirar no G2" \
+3 "Substituição, qual nota devo trocar..." )  
+
+if [ "$op" = "1" ]; then
+g1=$(dialog --inputbox 'G1' 0 0 --stdout) 
+g2=$(dialog --inputbox 'G2' 0 0 --stdout) 
+x=$(echo "scale=1; (($g1 + ($g2 * 2)) / 3) " | bc)
+
+dialog                                         \
+   --title 'Resultado'                           \
+   --infobox "$x"   \
+   0 0
+elif [ "$op" = "2" ]; then
+
+g1=$(dialog --inputbox 'G1' 0 0 --stdout) 
+x=$(echo "scale=1; (18 - $g1) / 2 " | bc)
+
+dialog                                         \
+   --title 'Resultado'                           \
+   --infobox $x   \
+   0 0
+elif [ "$op" = "3" ]; then
+g1=$(dialog --inputbox 'G1' 0 0 --stdout) 
+g2=$(dialog --inputbox 'G2' 0 0 --stdout) 
+x=$[ (18 - $g1) / 2 ] 
+y=$[ 18 - ($g2 * 2) ]
+if [ $x -lt $y ]; then
+x=$(echo "scale=1; (18 - $g1) / 2 " | bc)
+dialog                                         \
+   --title 'Resultado'                           \
+   --infobox 'Precisa de '$x' no G2'   \
+   0 0
+else
+y=$(echo "scale=1; 18 - ($g2 * 2) " | bc)
+dialog                                         \
+   --title 'Resultado'                           \
+   --infobox 'Precisa de '$y' no G1'   \
+   0 0
+fi
+fi
