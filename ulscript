@@ -30,19 +30,20 @@ dialog                                         \
 elif [ "$op" = "3" ]; then
 g1=$(dialog --inputbox 'G1' 0 0 --stdout) 
 g2=$(dialog --inputbox 'G2' 0 0 --stdout) 
-x=$[ (18 - $g1) / 2 ] 
-y=$[ 18 - ($g2 * 2) ]
+x=$ 18 - $g1 / 2  
+y=$ 18 - $g2 * 2 
 if [ $x -lt $y ]; then
 x=$(echo "scale=1; (18 - $g1) / 2 " | bc)
 dialog                                         \
    --title 'Resultado'                           \
    --infobox 'Precisa de '$x' no G2'   \
    0 0
-else
+fi 
+
+elif [ $y -lt $x ]; then
 y=$(echo "scale=1; 18 - ($g2 * 2) " | bc)
 dialog                                         \
    --title 'Resultado'                           \
    --infobox 'Precisa de '$y' no G1'   \
    0 0
-fi
 fi
